@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<VBox alignment="CENTER"
+      fx:id="root"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="top.tonydon.DnsController">
+
+
+    <MenuBar style="-fx-background-color: #fff">
+        <Menu text="帮助">
+            <MenuItem text="检查更新" onAction="#checkUpdate"/>
+            <MenuItem text="关于" onAction="#about"/>
+        </Menu>
+    </MenuBar>
+
+    <VBox spacing="20.0">
+        <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+        </padding>
+
+        <HBox alignment="CENTER" spacing="20">
+            <Button text="刷新DNS列表" onAction="#findDnsList"/>
+            <Button text="测试延迟" onAction="#testDelay"/>
+        </HBox>
+
+        <TableView fx:id="tableView">
+            <columns>
+                <TableColumn text="描述" minWidth="140">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="description"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="主IP" minWidth="120">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="primaryIp"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="副IP" minWidth="120">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="assistantIp"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="主IP延迟" minWidth="50">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="primaryDelay"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="副IP延迟" minWidth="50">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="assistantDelay"/>
+                    </cellValueFactory>
+                </TableColumn>
+            </columns>
+        </TableView>
+        <HBox>
+            <Label fx:id="infoLabel"/>
+            <ProgressIndicator fx:id="infoProgress" prefHeight="20" prefWidth="20" visible="false"/>
+        </HBox>
+    </VBox>
+</VBox>
