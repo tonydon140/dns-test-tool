@@ -1,4 +1,4 @@
-package top.tonydon.constant;
+package top.tonydon.dns.constant;
 
 public class ClientConstants {
 

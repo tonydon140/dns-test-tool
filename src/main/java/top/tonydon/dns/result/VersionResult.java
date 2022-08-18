@@ -1,4 +1,4 @@
-package top.tonydon.result;
+package top.tonydon.dns.result;
 
 public class VersionResult {
     private Integer code;

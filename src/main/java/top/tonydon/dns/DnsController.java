@@ -1,4 +1,4 @@
-package top.tonydon;
+package top.tonydon.dns;
 
 import javafx.application.Application;
 import javafx.application.HostServices;
@@ -11,16 +11,16 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import top.tonydon.constant.ClientConstants;
-import top.tonydon.exception.HttpException;
-import top.tonydon.exception.ResultException;
-import top.tonydon.result.Dns;
-import top.tonydon.result.DnsListResult;
-import top.tonydon.result.Version;
-import top.tonydon.result.VersionResult;
-import top.tonydon.util.AlertUtils;
-import top.tonydon.util.JSONUtils;
-import top.tonydon.util.PingUtils;
+import top.tonydon.dns.constant.ClientConstants;
+import top.tonydon.dns.exception.HttpException;
+import top.tonydon.dns.exception.ResultException;
+import top.tonydon.dns.result.Dns;
+import top.tonydon.dns.result.DnsListResult;
+import top.tonydon.dns.result.Version;
+import top.tonydon.dns.result.VersionResult;
+import top.tonydon.dns.util.AlertUtils;
+import top.tonydon.dns.util.JSONUtils;
+import top.tonydon.dns.util.PingUtils;
 
 import java.net.URI;
 import java.net.http.*;

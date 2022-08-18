@@ -1,4 +1,4 @@
-package top.tonydon.util;
+package top.tonydon.dns.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;

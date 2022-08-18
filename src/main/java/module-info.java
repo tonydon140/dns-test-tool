@@ -1,4 +1,4 @@
-module top.tonydon.dnstesttool {
+module top.tonydon.dns {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.net.http;
@@ -10,7 +10,7 @@ module top.tonydon.dnstesttool {
     requires com.fasterxml.jackson.datatype.jsr310;
 
 
-    opens top.tonydon to javafx.fxml;
-    exports top.tonydon;
-    exports top.tonydon.result;
+    opens top.tonydon.dns to javafx.fxml;
+    exports top.tonydon.dns;
+    exports top.tonydon.dns.result;
 }

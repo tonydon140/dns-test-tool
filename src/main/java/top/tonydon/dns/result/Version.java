@@ -1,4 +1,4 @@
-package top.tonydon.result;
+package top.tonydon.dns.result;
 
 import java.time.LocalDateTime;
 

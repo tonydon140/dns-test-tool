@@ -1,4 +1,4 @@
-package top.tonydon.util;
+package top.tonydon.dns.util;
 
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
