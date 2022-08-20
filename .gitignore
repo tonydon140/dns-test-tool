@@ -1,4 +1,5 @@
 target/
+src/test/**
 
 .mvn/**
 .idea/**

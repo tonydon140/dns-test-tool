@@ -8,7 +8,7 @@
 <VBox alignment="CENTER"
       fx:id="root"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="top.tonydon.dns.DnsController">
+      fx:controller="top.tonydon.dns.MainController">
 
 
     <MenuBar style="-fx-background-color: #fff">

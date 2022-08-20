@@ -27,12 +27,14 @@ import java.net.http.*;
 import java.time.Duration;
 import java.util.concurrent.*;
 
-public class DnsController {
+public class MainController {
     // 日志
-    private static final Logger log = LoggerFactory.getLogger(DnsController.class);
+    private static final Logger log = LoggerFactory.getLogger(MainController.class);
 
     // 线程池
     private final ExecutorService pool;
+    private final int CORE_POOL_SIZE = ClientConstants.CPU_CORE_COUNT * 5;
+    private final int MAX_POOL_SIZE = ClientConstants.CPU_CORE_COUNT * 10;
 
     // HTTP
     private final HttpClient HTTP_CLIENT;
@@ -46,12 +48,9 @@ public class DnsController {
     private Stage primaryStage;
     private HostServices hostServices;
 
-    public DnsController() {
+    public MainController() {
 
-        this.HTTP_CLIENT = HttpClient.newBuilder()
-                .version(HttpClient.Version.HTTP_1_1)
-                .connectTimeout(Duration.ofSeconds(5))
-                .build();
+        this.HTTP_CLIENT = HttpClient.newHttpClient();
 
         this.DNS_LIST_REQ = HttpRequest.newBuilder()
                 .uri(URI.create(ClientConstants.DNS_API))
@@ -60,8 +59,8 @@ public class DnsController {
                 .build();
 
         this.pool = new ThreadPoolExecutor(
-                10,
-                20,
+                CORE_POOL_SIZE,
+                MAX_POOL_SIZE,
                 60L, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
     }
 
@@ -81,23 +80,28 @@ public class DnsController {
      */
     public void testDelay() {
         setInfo("测试延迟");
+        final long startTime = System.currentTimeMillis();
 
         ObservableList<Dns> dnsList = tableView.getItems();
-        if (dnsList.size() == 0){
-            AlertUtils.warning("数据错误","请先获取DNS数据", this.primaryStage);
+        if (dnsList.size() == 0) {
+            AlertUtils.warning("数据错误", "请先获取DNS数据", this.primaryStage);
         }
         CountDownLatch countDownLatch = new CountDownLatch(dnsList.size());
 
         // 向线程池中添加任务
         for (Dns dns : dnsList) {
+            // 测试主 IP 延迟
             pool.execute(() -> {
-                String delay1 = PingUtils.ping(dns.getPrimaryIp());
-                String delay2 = PingUtils.ping(dns.getAssistantIp());
-                dns.setPrimaryDelay(delay1);
-                dns.setAssistantDelay(delay2);
-
-                log.debug("ip = {}, delay = {}", dns.getPrimaryIp(), delay1);
-                log.debug("ip = {}, delay = {}", dns.getAssistantIp(), delay2);
+                String delay = PingUtils.ping(dns.getPrimaryIp());
+                dns.setPrimaryDelay(delay);
+                log.debug("ip = {}, delay = {}", dns.getPrimaryIp(), delay);
+                tableView.refresh();
+            });
+            // 测试副 IP 延迟
+            pool.execute(() -> {
+                String delay = PingUtils.ping(dns.getAssistantIp());
+                dns.setAssistantDelay(delay);
+                log.debug("ip = {}, delay = {}", dns.getAssistantIp(), delay);
                 tableView.refresh();
                 countDownLatch.countDown();
             });
@@ -105,9 +109,10 @@ public class DnsController {
 
 
         // 监听线程池任务结束
-        pool.execute(()->{
+        pool.execute(() -> {
             try {
                 countDownLatch.await();
+                log.debug("total time = {}s", (System.currentTimeMillis() - startTime) / 1000.0);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -138,15 +143,15 @@ public class DnsController {
                 });
     }
 
-    private void clearInfo(){
-        Platform.runLater(()->{
+    private void clearInfo() {
+        Platform.runLater(() -> {
             infoLabel.setText("");
             infoProgress.setVisible(false);
         });
     }
 
-    private void setInfo(String info){
-        Platform.runLater(()->{
+    private void setInfo(String info) {
+        Platform.runLater(() -> {
             infoLabel.setText(info);
             infoProgress.setVisible(true);
         });

@@ -10,7 +10,7 @@ import top.tonydon.dns.constant.ClientConstants;
 import java.io.IOException;
 
 public class MainApplication extends Application {
-    DnsController controller;
+    MainController controller;
 
     @Override
     public void start(Stage stage) throws IOException {
