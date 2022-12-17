@@ -1,10 +1,9 @@
-target/
-javafx/src/test/**
-
-.mvn/**
 .idea
-*.iws
-*.iml
-mvnw
-mvnw.cmd
 
+javafx/src/test
+
+python/build/
+python/dist/
+python/main.spec
+
+output/
