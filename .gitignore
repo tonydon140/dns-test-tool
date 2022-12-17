@@ -1,8 +1,8 @@
 target/
-src/test/**
+javafx/src/test/**
 
 .mvn/**
-.idea/**
+.idea
 *.iws
 *.iml
 mvnw
