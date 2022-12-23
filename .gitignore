@@ -4,6 +4,7 @@ javafx/src/test
 
 python/build/
 python/dist/
-python/main.spec
+python/__pycache__/
 
+test
 output/
