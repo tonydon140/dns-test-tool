@@ -1,0 +1,82 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Build App On Linux, MacOS and Windows
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  linux-build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      # 配置 JDK
+    - name: Set up JDK
+      uses: oracle-actions/setup-java@v1
+      with:
+        website: jdk.java.net
+        release: 17
+      # 打包程序
+    - name: Build with Maven
+      run: mvn javafx:jlink
+      # 把编译后的产物上传到 github action
+    - uses: actions/upload-artifact@v3
+      with: 
+        name: app-linux
+        path: target/app.zip
+        retention-days: 1
+
+  mac-build:
+
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        # 配置 JDK
+      - name: Set up JDK
+        uses: oracle-actions/setup-java@v1
+        with:
+          website: jdk.java.net
+          release: 17
+        # 打包程序
+      - name: Build with Maven
+        run: mvn javafx:jlink
+        # 把编译后的产物上传到 github action
+      - uses: actions/upload-artifact@v3
+        with:
+          name: app-mac
+          path: target/app.zip
+          retention-days: 1
+
+  win-build:
+
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        # 配置 JDK
+      - name: Set up JDK
+        uses: oracle-actions/setup-java@v1
+        with:
+          website: jdk.java.net
+          release: 17
+        # 打包程序
+      - name: Build with Maven
+        run: mvn javafx:jlink
+        # 把编译后的产物上传到 github action
+      - uses: actions/upload-artifact@v3
+        with:
+          name: app-win
+          path: target/app.zip
+          retention-days: 1
