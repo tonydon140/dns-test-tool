@@ -28,7 +28,7 @@ object PingUtils {
 
     fun ping(ip: String, count: Int = 4): PingResult {
         val sb: StringBuilder = StringBuilder()
-        val pro = Runtime.getRuntime().exec("ping $ip -n $count")
+        val pro = Runtime.getRuntime().exec(arrayOf("ping $ip -n $count"))
         val buf = BufferedReader(
             InputStreamReader(
                 pro.inputStream,
