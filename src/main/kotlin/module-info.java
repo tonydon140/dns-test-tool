@@ -1,6 +1,5 @@
 module top.tonydon.tools.dnstesttool {
     requires javafx.controls;
-    requires javafx.fxml;
     requires kotlin.stdlib;
     requires java.net.http;
     requires com.fasterxml.jackson.databind;

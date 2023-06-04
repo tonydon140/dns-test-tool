@@ -26,7 +26,7 @@ jobs:
       uses: oracle-actions/setup-java@v1
       with:
         website: jdk.java.net
-        release: 17
+        release: 20
       # 打包程序
     - name: Build with Maven
       run: mvn javafx:jlink
@@ -48,7 +48,7 @@ jobs:
         uses: oracle-actions/setup-java@v1
         with:
           website: jdk.java.net
-          release: 17
+          release: 20
         # 打包程序
       - name: Build with Maven
         run: mvn javafx:jlink
@@ -70,7 +70,7 @@ jobs:
         uses: oracle-actions/setup-java@v1
         with:
           website: jdk.java.net
-          release: 17
+          release: 20
         # 打包程序
       - name: Build with Maven
         run: mvn javafx:jlink
