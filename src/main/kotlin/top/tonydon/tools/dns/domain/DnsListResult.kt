@@ -1,4 +1,4 @@
-package top.tonydon.tools.dnstesttool.domain
+package top.tonydon.tools.dns.domain
 
 data class DnsListResult(
     var code: Int? = null,

@@ -1,4 +1,4 @@
-package top.tonydon.tools.dnstesttool.constant
+package top.tonydon.tools.dns.constant
 
 object ClientConstants {
     const val DNS_API = "https://tonydon.top:6515/admin/dns/list"

@@ -1,4 +1,4 @@
-package top.tonydon.tools.dnstesttool
+package top.tonydon.tools.dns
 
 import javafx.application.HostServices
 import javafx.application.Platform
@@ -17,16 +17,16 @@ import javafx.stage.Modality
 import javafx.stage.Stage
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import top.tonydon.tools.dnstesttool.constant.ClientConstants
-import top.tonydon.tools.dnstesttool.domain.Dns
-import top.tonydon.tools.dnstesttool.domain.DnsListResult
-import top.tonydon.tools.dnstesttool.domain.PingResult
-import top.tonydon.tools.dnstesttool.domain.VersionResult
-import top.tonydon.tools.dnstesttool.exception.HttpException
-import top.tonydon.tools.dnstesttool.exception.ResultException
-import top.tonydon.tools.dnstesttool.util.AlertUtils
-import top.tonydon.tools.dnstesttool.util.JSONUtils
-import top.tonydon.tools.dnstesttool.util.PingUtils
+import top.tonydon.tools.dns.constant.ClientConstants
+import top.tonydon.tools.dns.domain.Dns
+import top.tonydon.tools.dns.domain.DnsListResult
+import top.tonydon.tools.dns.domain.PingResult
+import top.tonydon.tools.dns.domain.VersionResult
+import top.tonydon.tools.dns.exception.HttpException
+import top.tonydon.tools.dns.exception.ResultException
+import top.tonydon.tools.dns.util.AlertUtils
+import top.tonydon.tools.dns.util.JSONUtils
+import top.tonydon.tools.dns.util.PingUtils
 import java.net.URI
 import java.net.http.*
 import java.time.Duration

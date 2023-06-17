@@ -1,6 +1,4 @@
-package top.tonydon.tools.dnstesttool.domain
-
-import java.time.LocalDateTime
+package top.tonydon.tools.dns.domain
 
 data class Version(
     var id: Long = -1,

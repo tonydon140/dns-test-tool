@@ -1,6 +1,6 @@
-package top.tonydon.tools.dnstesttool.util
+package top.tonydon.tools.dns.util
 
-import top.tonydon.tools.dnstesttool.domain.PingResult
+import top.tonydon.tools.dns.domain.PingResult
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -28,7 +28,7 @@ object PingUtils {
 
     fun ping(ip: String, count: Int = 4): PingResult {
         val sb: StringBuilder = StringBuilder()
-        val pro = Runtime.getRuntime().exec(arrayOf("ping $ip -n $count"))
+        val pro = Runtime.getRuntime().exec("ping $ip -n $count")
         val buf = BufferedReader(
             InputStreamReader(
                 pro.inputStream,

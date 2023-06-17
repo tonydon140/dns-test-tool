@@ -1,4 +1,4 @@
-package top.tonydon.tools.dnstesttool.domain
+package top.tonydon.tools.dns.domain
 
 data class PingResult(
     var meanDelay: Int = 0,

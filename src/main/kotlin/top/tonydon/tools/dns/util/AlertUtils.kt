@@ -1,4 +1,4 @@
-package top.tonydon.tools.dnstesttool.util
+package top.tonydon.tools.dns.util
 
 import javafx.application.Platform
 import javafx.scene.control.Alert

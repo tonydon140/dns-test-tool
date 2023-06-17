@@ -9,8 +9,8 @@ module top.tonydon.tools.dnstesttool {
 
 //    opens top.tonydon.tools.dnstesttool to javafx.controls;
 //    opens top.tonydon.tools.dnstesttool.domain to javafx.base;
-    opens top.tonydon.tools.dnstesttool.domain to com.fasterxml.jackson.databind;
+    opens top.tonydon.tools.dns.domain to com.fasterxml.jackson.databind;
 
-    exports top.tonydon.tools.dnstesttool;
-    exports top.tonydon.tools.dnstesttool.domain;
+    exports top.tonydon.tools.dns;
+    exports top.tonydon.tools.dns.domain;
 }

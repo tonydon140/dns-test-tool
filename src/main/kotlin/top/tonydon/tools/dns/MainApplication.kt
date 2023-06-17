@@ -1,9 +1,9 @@
-package top.tonydon.tools.dnstesttool
+package top.tonydon.tools.dns
 
 import javafx.application.Application
 import javafx.scene.Scene
 import javafx.stage.Stage
-import top.tonydon.tools.dnstesttool.constant.ClientConstants
+import top.tonydon.tools.dns.constant.ClientConstants
 
 
 class MainApplication : Application() {

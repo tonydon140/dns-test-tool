@@ -1,4 +1,4 @@
-package top.tonydon.tools.dnstesttool.util
+package top.tonydon.tools.dns.util
 
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.DeserializationFeature
