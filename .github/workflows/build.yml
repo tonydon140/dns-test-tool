@@ -8,6 +8,9 @@
 
 name: Build App On Linux, MacOS and Windows
 
+env:
+  VERSION: v1.0.0
+
 on:
   push:
     branches:
@@ -33,49 +36,49 @@ jobs:
     - uses: actions/upload-artifact@v3
       with: 
         name: app-linux
-        path: target/app.zip
+        path: target/DnsTestTool-$VERSION-linux.zip
         retention-days: 1
 
-#  mac-build:
-#
-#    runs-on: macos-latest
-#
-#    steps:
-#      - uses: actions/checkout@v3
-#        # 配置 JDK
-#      - name: Set up JDK
-#        uses: oracle-actions/setup-java@v1
-#        with:
-#          website: jdk.java.net
-#          release: 20
-#        # 打包程序
-#      - name: Build with Maven
-#        run: mvn javafx:jlink
-#        # 把编译后的产物上传到 github action
-#      - uses: actions/upload-artifact@v3
-#        with:
-#          name: app-mac
-#          path: target/app.zip
-#          retention-days: 1
-#
-#  win-build:
-#
-#    runs-on: windows-latest
-#
-#    steps:
-#      - uses: actions/checkout@v3
-#        # 配置 JDK
-#      - name: Set up JDK
-#        uses: oracle-actions/setup-java@v1
-#        with:
-#          website: jdk.java.net
-#          release: 20
-#        # 打包程序
-#      - name: Build with Maven
-#        run: mvn javafx:jlink
-#        # 把编译后的产物上传到 github action
-#      - uses: actions/upload-artifact@v3
-#        with:
-#          name: app-win
-#          path: target/app.zip
-#          retention-days: 1
+  mac-build:
+
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        # 配置 JDK
+      - name: Set up JDK
+        uses: oracle-actions/setup-java@v1
+        with:
+          website: jdk.java.net
+          release: 20
+        # 打包程序
+      - name: Build with Maven
+        run: mvn package
+        # 把编译后的产物上传到 github action
+      - uses: actions/upload-artifact@v3
+        with:
+          name: app-mac
+          path: target/DnsTestTool-$VERSION-macos.zip
+          retention-days: 1
+
+  win-build:
+
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        # 配置 JDK
+      - name: Set up JDK
+        uses: oracle-actions/setup-java@v1
+        with:
+          website: jdk.java.net
+          release: 20
+        # 打包程序
+      - name: Build with Maven
+        run: mvn package
+        # 把编译后的产物上传到 github action
+      - uses: actions/upload-artifact@v3
+        with:
+          name: app-win
+          path: target/DnsTestTool-$VERSION-windows.zip
+          retention-days: 1

@@ -6,12 +6,13 @@
 
     <groupId>top.tonydon.tools</groupId>
     <artifactId>dns-test-tool</artifactId>
-    <version>0.3.0</version>
+    <version>1.0.0</version>
     <name>dns-test-tool</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <kotlin.version>1.8.10</kotlin.version>
+        <name>DnsTestTool</name>
     </properties>
 
     <dependencies>
