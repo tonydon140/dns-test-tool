@@ -14,34 +14,30 @@ on:
       - master
 
 jobs:
-#  linux-build:
-#
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#    - uses: actions/checkout@v3
-#      # 配置 JDK
-#    - name: Set up JDK
-#      uses: oracle-actions/setup-java@v1
-#      with:
-#        website: jdk.java.net
-#        release: 20
-#      # 打包程序
-#    - name: Build with Maven
-#      run: mvn package
-#      # 把编译后的产物上传到 github action
-#    - name: Print
-#      run: ls -l target
-#    - uses: actions/upload-artifact@v3
-#      with:
-#        name: app-linux
-#        path: target/DnsTestTool-1.0.0-linux.zip
-#        retention-days: 1
+  linux-build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      # 配置 JDK
+    - name: Set up JDK
+      uses: oracle-actions/setup-java@v1
+      with:
+        website: jdk.java.net
+        release: 20
+      # 打包程序
+    - name: Build with Maven
+      run: mvn package
+      # 把编译后的产物上传到 github action
+    - name: Print
+      run: ls -l target
+    - uses: actions/upload-artifact@v3
+      with:
+        name: app-linux
+        path: target/DnsTestTool-1.0.0-linux.zip
+        retention-days: 1
 
   mac-build:
-
     runs-on: macos-latest
-
     steps:
       - uses: actions/checkout@v3
         # 配置 JDK
@@ -56,30 +52,28 @@ jobs:
       - name: Print
         run: ls -l target
         # 把编译后的产物上传到 github action
-#      - uses: actions/upload-artifact@v3
-#        with:
-#          name: app-mac
-#          path: target/DnsTestTool-1.0.0-macos.zip
-#          retention-days: 1
+      - uses: actions/upload-artifact@v3
+        with:
+          name: app-mac
+          path: target/DnsTestTool-1.0.0-mac.zip
+          retention-days: 1
 
-#  win-build:
-#
-#    runs-on: windows-latest
-#
-#    steps:
-#      - uses: actions/checkout@v3
-#        # 配置 JDK
-#      - name: Set up JDK
-#        uses: oracle-actions/setup-java@v1
-#        with:
-#          website: jdk.java.net
-#          release: 20
-#        # 打包程序
-#      - name: Build with Maven
-#        run: mvn package
-#        # 把编译后的产物上传到 github action
-#      - uses: actions/upload-artifact@v3
-#        with:
-#          name: app-win
-#          path: target/DnsTestTool-1.0.0-windows.zip
-#          retention-days: 1
+  win-build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+        # 配置 JDK
+      - name: Set up JDK
+        uses: oracle-actions/setup-java@v1
+        with:
+          website: jdk.java.net
+          release: 20
+        # 打包程序
+      - name: Build with Maven
+        run: mvn package
+        # 把编译后的产物上传到 github action
+      - uses: actions/upload-artifact@v3
+        with:
+          name: app-win
+          path: target/DnsTestTool-1.0.0-windows.zip
+          retention-days: 1
