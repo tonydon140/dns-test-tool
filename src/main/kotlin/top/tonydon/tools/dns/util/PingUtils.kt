@@ -1,5 +1,6 @@
 package top.tonydon.tools.dns.util
 
+import top.tonydon.tools.dns.constant.OSEnum
 import top.tonydon.tools.dns.domain.PingResult
 import java.io.BufferedReader
 import java.io.IOException
@@ -25,10 +26,20 @@ object PingUtils {
         }
     }
 
+    private val os = OSUtils.getSystem()
+
 
     fun ping(ip: String, count: Int = 4): PingResult {
+        // 根据操作系统设置ping命令
+        var pingCmd = ""
+        if(os == OSEnum.Windows){
+            pingCmd = "ping $ip -n $count"
+        }else if(os == OSEnum.Linux || os == OSEnum.MacOS){
+            pingCmd = "ping $ip -c $count"
+        }
+
         val sb: StringBuilder = StringBuilder()
-        val pro = Runtime.getRuntime().exec("ping $ip -n $count")
+        val pro = Runtime.getRuntime().exec(pingCmd)
         val buf = BufferedReader(
             InputStreamReader(
                 pro.inputStream,
