@@ -23,7 +23,7 @@ jobs:
       uses: oracle-actions/setup-java@v1
       with:
         website: jdk.java.net
-        release: 20
+        release: 21
       # 打包程序
     - name: Build with Maven
       run: mvn package
@@ -45,7 +45,7 @@ jobs:
         uses: oracle-actions/setup-java@v1
         with:
           website: jdk.java.net
-          release: 20
+          release: 21
         # 打包程序
       - name: Build with Maven
         run: mvn package
@@ -67,7 +67,7 @@ jobs:
         uses: oracle-actions/setup-java@v1
         with:
           website: jdk.java.net
-          release: 20
+          release: 21
         # 打包程序
       - name: Build with Maven
         run: mvn package
