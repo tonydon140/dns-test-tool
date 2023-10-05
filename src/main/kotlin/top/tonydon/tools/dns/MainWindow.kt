@@ -22,7 +22,6 @@ import top.tonydon.tools.dns.constant.ClientConstants
 import top.tonydon.tools.dns.domain.Dns
 import top.tonydon.tools.dns.domain.DnsListResult
 import top.tonydon.tools.dns.domain.PingResult
-import top.tonydon.tools.dns.domain.VersionResult
 import top.tonydon.tools.dns.exception.HttpException
 import top.tonydon.tools.dns.exception.ResultException
 import top.tonydon.tools.dns.util.AlertUtils
@@ -171,7 +170,7 @@ class MainWindow {
         return root
     }
 
-    private fun judeg(version: String): Boolean {
+    private fun judge(version: String): Boolean {
         val current = ClientConstants.VERSION.substring(1).split(".")
         val latest = version.substring(1).split(".")
         for (i in current.indices) {
@@ -206,22 +205,21 @@ class MainWindow {
             }.thenAccept {
                 val mapper = ObjectMapper()
                 val tree = mapper.readTree(it)
-                println(tree)
                 val version = tree.get("tag_name").asText()
                 val info = tree.get("body").asText()
 
                 // 有新版本
-                if (judeg(version)) {
+                if (judge(version)) {
                     Platform.runLater {
                         val alert = Alert(Alert.AlertType.CONFIRMATION)
-                        alert.headerText = "发现新版本$version！是否前往下载？"
+                        alert.headerText = "发现新版本$version！当前版本可能无法正常使用！点击确定前往下载！"
                         alert.contentText = info
                         alert.initModality(Modality.WINDOW_MODAL)
                         alert.initOwner(stage)
                         alert.showAndWait()
                             .filter { buttonType: ButtonType -> buttonType == ButtonType.OK }
                             .ifPresent {
-                                this.hostServices?.showDocument(ClientConstants.LATEST_URL)
+                                this.hostServices?.showDocument(ClientConstants.LATEST_GITHUB_URL)
                             }
                     }
                 } else {
@@ -234,15 +232,23 @@ class MainWindow {
                 log.warn("{} : {}", ex!!.javaClass, ex.message)
 
                 // 鉴别异常类型
-                if (ex is ResultException) {
-                    AlertUtils.error("请求出错", ex.message!!, stage)
-                } else if (ex is HttpConnectTimeoutException) {
-                    checkUpdate()
-                } else if (ex is HttpTimeoutException) {
-                    AlertUtils.error("请求超时", "网络请求超时，请稍后再试。", stage)
-                } else {
-                    // HTTP 错误、连接错误、等等
-                    AlertUtils.error("网络错误", "检查更新发生错误，请稍后再试。", stage)
+                when (ex) {
+                    is ResultException -> {
+                        AlertUtils.error("请求出错", ex.message!!, stage)
+                    }
+
+                    is HttpConnectTimeoutException -> {
+                        checkUpdate()
+                    }
+
+                    is HttpTimeoutException -> {
+                        AlertUtils.error("请求超时", "网络请求超时，请稍后再试。", stage)
+                    }
+
+                    else -> {
+                        // HTTP 错误、连接错误、等等
+                        AlertUtils.error("网络错误", "检查更新发生错误，请稍后再试。", stage)
+                    }
                 }
                 null
             }
