@@ -1,5 +1,6 @@
 package top.tonydon.tools.dns
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import javafx.application.HostServices
 import javafx.application.Platform
 import javafx.collections.FXCollections
@@ -42,11 +43,6 @@ val CORE_POOL_SIZE = ClientConstants.CPU_CORE_COUNT * 5
 val MAX_POOL_SIZE = ClientConstants.CPU_CORE_COUNT * 10
 
 val HTTP_CLIENT: HttpClient = HttpClient.newHttpClient()
-val DNS_LIST_REQ: HttpRequest = HttpRequest.newBuilder()
-    .uri(URI.create(ClientConstants.DNS_API))
-    .header("Content-Type", "application/json")
-    .timeout(Duration.ofMinutes(5))
-    .build()
 val pool = ThreadPoolExecutor(
     CORE_POOL_SIZE,
     MAX_POOL_SIZE,
@@ -175,7 +171,21 @@ class MainWindow {
         return root
     }
 
-    private fun checkUpdate(){
+    private fun judeg(version: String): Boolean {
+        val current = ClientConstants.VERSION.substring(1).split(".")
+        val latest = version.substring(1).split(".")
+        for (i in current.indices) {
+            return if (latest[i] > current[i])
+                true
+            else if (latest[i] == current[i])
+                continue
+            else
+                false
+        }
+        return false
+    }
+
+    private fun checkUpdate() {
         setInfo("检查更新")
 
         val request = HttpRequest.newBuilder()
@@ -194,32 +204,28 @@ class MainWindow {
                 }
                 response.body()
             }.thenAccept {
-                // 解析 JSON
-                val versionResult = JSONUtils.parse(it, VersionResult::class.java)
-                // 如果 code 不是 200，抛出结果异常
-                if (versionResult.code != 200) {
-                    throw ResultException(versionResult.msg)
-                }
-                // 获取版本信息
-                val version = versionResult.data
-                if (version != null) {
-                    // 有新版本
-                    if (version.versionNumber > ClientConstants.VERSION_NUMBER) {
-                        Platform.runLater {
-                            val alert = Alert(Alert.AlertType.CONFIRMATION)
-                            alert.headerText = "发现新版本" + version.version + "！是否前往下载？"
-                            alert.contentText = version.description
-                            alert.initModality(Modality.WINDOW_MODAL)
-                            alert.initOwner(stage)
-                            alert.showAndWait()
-                                .filter { buttonType: ButtonType -> buttonType == ButtonType.OK }
-                                .ifPresent {
-                                    this.hostServices?.showDocument(ClientConstants.LATEST_URL)
-                                }
-                        }
-                    } else {
-                        AlertUtils.information("当前版本" + ClientConstants.VERSION + "已是最新版本！", "", stage)
+                val mapper = ObjectMapper()
+                val tree = mapper.readTree(it)
+                println(tree)
+                val version = tree.get("tag_name").asText()
+                val info = tree.get("body").asText()
+
+                // 有新版本
+                if (judeg(version)) {
+                    Platform.runLater {
+                        val alert = Alert(Alert.AlertType.CONFIRMATION)
+                        alert.headerText = "发现新版本$version！是否前往下载？"
+                        alert.contentText = info
+                        alert.initModality(Modality.WINDOW_MODAL)
+                        alert.initOwner(stage)
+                        alert.showAndWait()
+                            .filter { buttonType: ButtonType -> buttonType == ButtonType.OK }
+                            .ifPresent {
+                                this.hostServices?.showDocument(ClientConstants.LATEST_URL)
+                            }
                     }
+                } else {
+                    AlertUtils.information("当前版本" + ClientConstants.VERSION + "已是最新版本！", "", stage)
                 }
             }.exceptionally { throwable: Throwable ->
                 // 捕获异常
@@ -278,22 +284,11 @@ class MainWindow {
     }
 
     fun findDnsList() {
-        setInfo("获取数据");
-        HTTP_CLIENT
-            .sendAsync(DNS_LIST_REQ, HttpResponse.BodyHandlers.ofString())
-            .thenApply<String> { obj: HttpResponse<String?> ->
-                obj.body()
-            }
-            .thenAccept {
-                val dnsListResult = JSONUtils.parse(it, DnsListResult::class.java)
-                Platform.runLater {
-                    table.items = FXCollections.observableList(dnsListResult.data)
-                }
-            }.exceptionally {
-                it.printStackTrace()
-                AlertUtils.error("网络错误", "获取数据发生错误，请稍后再试或联系管理员。", this.stage);
-                null
-            }
+        setInfo("加载DNS数据");
+        val dnsListResult = JSONUtils.parse(javaClass.classLoader.getResource("dns.json"), DnsListResult::class.java)
+        Platform.runLater {
+            table.items = FXCollections.observableList(dnsListResult.data)
+        }
         clearInfo()
     }
 

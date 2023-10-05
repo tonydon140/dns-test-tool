@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import java.net.URL
 
 object JSONUtils {
     private var MAPPER: ObjectMapper = ObjectMapper()
@@ -16,6 +17,15 @@ object JSONUtils {
     fun <T> parse(json: String?, clazz: Class<T>?): T {
         return try {
             MAPPER.readValue(json, clazz)
+        } catch (e: JsonProcessingException) {
+            e.printStackTrace()
+            throw RuntimeException(e)
+        }
+    }
+
+    fun <T> parse(url: URL?, clazz: Class<T>?): T {
+        return try {
+            MAPPER.readValue(url, clazz)
         } catch (e: JsonProcessingException) {
             e.printStackTrace()
             throw RuntimeException(e)
